@@ -9,7 +9,7 @@ import com.syrok.myapplication.TodoItemAdapter.TodoItemHolder
 import com.syrok.myapplication.databinding.TodoItemBinding
 
 class TodoItemAdapter : RecyclerView.Adapter<TodoItemHolder>() {
-    private val items = arrayListOf<TodoItem>()
+    private val items = mutableListOf<TodoItem>()
     private lateinit var context: Context
 
     override fun onCreateViewHolder(
@@ -41,8 +41,9 @@ class TodoItemAdapter : RecyclerView.Adapter<TodoItemHolder>() {
             }
 
             holder.binding.trash.setOnClickListener { _ ->
-                notifyItemRemoved(position)
                 items.removeAt(position)
+                notifyItemRemoved(position)
+                notifyItemRangeChanged(position, items.size)
             }
         }
     }
