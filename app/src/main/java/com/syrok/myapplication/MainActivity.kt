@@ -5,6 +5,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.syrok.myapplication.databinding.ActivityMainBinding
@@ -31,9 +32,14 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = layoutManager
 
+        binding.todoInput.editText?.doOnTextChanged { newText: CharSequence?, u: Int, i1: Int, i2: Int ->
+            binding.addButton.isEnabled = !newText.isNullOrEmpty()
+        }
+
         binding.addButton.setOnClickListener {
             adapter.addTodo(binding.todoInput.editText?.text.toString())
             binding.todoInput.editText?.text = null
+            binding.recyclerView.scrollToPosition(adapter.itemCount - 1);
         }
     }
 }
